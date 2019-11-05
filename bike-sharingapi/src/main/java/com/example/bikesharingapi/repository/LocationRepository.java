@@ -1,36 +1,11 @@
 package com.example.bikesharingapi.repository;
 
 import com.example.bikesharingapi.models.Location;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
-public class LocationRepository implements IRepository<Location> {
-    @Override
-    public Location get(int id) {
-        return null;
-    }
+public interface LocationRepository extends JpaRepository<Location, UUID> {
 
-    @Override
-    public ArrayList<Location> getAll() {
-        return null;
-    }
-
-    public ArrayList<Location> getAll(String latitude, String longitude, int radius) {
-        return null;
-    }
-
-    @Override
-    public void add(Location value) {
-
-    }
-
-    @Override
-    public void update(Location value) {
-
-    }
-
-    @Override
-    public void delete(int id) {
-
-    }
 }

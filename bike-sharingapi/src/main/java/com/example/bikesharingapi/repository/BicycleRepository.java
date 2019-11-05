@@ -1,41 +1,16 @@
 package com.example.bikesharingapi.repository;
 
 import com.example.bikesharingapi.models.Bicycle;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
-public class BicycleRepository implements IRepository<Bicycle> {
-    @Override
-    public Bicycle get(int id) {
-        return null;
-    }
+public interface BicycleRepository extends JpaRepository<Bicycle, UUID> {
 
-    public ArrayList<Bicycle> getAllAvailable(String latitude, String longitude, int radius) {
-        return null;
-    }
-
-    public ArrayList<Bicycle> getAllAvailable(int locationId) {
-        return null;
-    }
-
-    @Override
-    public ArrayList<Bicycle> getAll() {
-        return null;
-    }
-
-    @Override
-    public void add(Bicycle value) {
-
-    }
-
-    @Override
-    public void update(Bicycle value) {
-
-    }
-
-    @Override
-    public void delete(int id) {
-
-    }
+    @Query("select b from bicycle b")
+    List<Bicycle> getAll();
+    List<Bicycle> getAllByAvailabilityIsTrue();
+    List<Bicycle> getAllByAvailabilityIsFalse();
 }
