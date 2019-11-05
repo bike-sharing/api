@@ -3,9 +3,9 @@ package com.example.bikesharingapi.controllers;
 import com.example.bikesharingapi.models.Bicycle;
 import com.example.bikesharingapi.repository.BicycleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.Entity;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
@@ -35,5 +35,15 @@ public class BicycleController {
     @DeleteMapping("/bicycle/{bicycleId}")
     public boolean removeBicycle(@PathVariable String bicycleId) {
         return bicycleRepository.deleteByBicycleIdIs(UUID.fromString(bicycleId));
+    }
+
+    @PutMapping("/bicycle")
+    public Bicycle addBicycle(@Valid @RequestBody Bicycle bicycle) {
+        return bicycleRepository.saveAndFlush(bicycle);
+    }
+
+    @PostMapping("/bicycle")
+    public Bicycle updateBicycle(@Valid @RequestBody Bicycle bicycle) {
+        return bicycleRepository.saveAndFlush(bicycle);
     }
 }
