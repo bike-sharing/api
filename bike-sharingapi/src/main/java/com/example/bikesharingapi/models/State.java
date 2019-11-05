@@ -12,6 +12,10 @@ public class State {
     private String name;
     private String description;
 
+    public State() {
+
+    }
+
     public State(UUID stateId, String name, String description) {
         this.stateId = stateId;
         this.name = name;

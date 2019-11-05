@@ -21,6 +21,10 @@ public class Bicycle {
     private String currentLongitude;
     private UUID userId;
 
+    public Bicycle() {
+
+    }
+
     public Bicycle(UUID bicycleId, Date lastRevisionTime, Boolean availability, State state, Location location, String currentLatitude, String currentLongitude, UUID userId) {
         this.bicycleId = bicycleId;
         this.lastRevisionTime = lastRevisionTime;

@@ -14,6 +14,10 @@ public class Location {
     private String latitude;
     private int radius;
 
+    public Location() {
+
+    }
+
     public Location(UUID locationId, String name, String longitude, String latitude, int radius) {
         this.locationId = locationId;
         this.name = name;
