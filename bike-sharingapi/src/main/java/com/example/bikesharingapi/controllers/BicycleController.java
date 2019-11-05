@@ -3,10 +3,12 @@ package com.example.bikesharingapi.controllers;
 import com.example.bikesharingapi.models.Bicycle;
 import com.example.bikesharingapi.repository.BicycleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.Entity;
+import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -17,16 +19,21 @@ public class BicycleController {
 
     @GetMapping("/bicycles")
     public List<Bicycle> getAll() {
-        return bicycleRepository.getAll();
+        return bicycleRepository.getAllBy();
     }
 
-    @GetMapping("/bicycles/available")
-    public List<Bicycle> getAllAvailable() {
-        return bicycleRepository.getAllByAvailabilityIsTrue();
+    @GetMapping("/bicycle/{bicycleId}")
+    public Bicycle getById(@PathVariable String bicycleId) {
+        return bicycleRepository.getByBicycleId(UUID.fromString(bicycleId));
     }
 
-    @GetMapping("/bicycles/unavailable")
-    public List<Bicycle> getAllUnavailable() {
-        return bicycleRepository.getAllByAvailabilityIsFalse();
+    @DeleteMapping("/bicycles")
+    public void removeBicycle() {
+        bicycleRepository.deleteAllBy();
+    }
+
+    @DeleteMapping("/bicycle/{bicycleId}")
+    public boolean removeBicycle(@PathVariable String bicycleId) {
+        return bicycleRepository.deleteByBicycleIdIs(UUID.fromString(bicycleId));
     }
 }
