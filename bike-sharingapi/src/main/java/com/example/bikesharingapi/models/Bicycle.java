@@ -4,12 +4,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity(name = "bicycle")
 public class Bicycle {
 
     @Id
-    private String bicycleId;
+    private UUID bicycleId;
     private Date lastRevisionTime;
     private Boolean availability;
     @ManyToOne
@@ -18,9 +19,9 @@ public class Bicycle {
     private Location location;
     private String currentLatitude;
     private String currentLongitude;
-    private String userId;
+    private UUID userId;
 
-    public Bicycle(String bicycleId, Date lastRevisionTime, Boolean availability, State state, Location location, String currentLatitude, String currentLongitude, String userId) {
+    public Bicycle(UUID bicycleId, Date lastRevisionTime, Boolean availability, State state, Location location, String currentLatitude, String currentLongitude, UUID userId) {
         this.bicycleId = bicycleId;
         this.lastRevisionTime = lastRevisionTime;
         this.availability = availability;
@@ -31,11 +32,11 @@ public class Bicycle {
         this.userId = userId;
     }
 
-    public String getBicycleId() {
+    public UUID getBicycleId() {
         return bicycleId;
     }
 
-    public void setBicycleId(String bicycleId) {
+    public void setBicycleId(UUID bicycleId) {
         this.bicycleId = bicycleId;
     }
 
@@ -87,11 +88,11 @@ public class Bicycle {
         this.currentLongitude = currentLongitude;
     }
 
-    public String getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 }

@@ -2,18 +2,19 @@ package com.example.bikesharingapi.models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.UUID;
 
 @Entity(name = "location")
 public class Location {
 
     @Id
-    private int locationId;
+    private UUID locationId;
     private String name;
     private String longitude;
     private String latitude;
     private int radius;
 
-    public Location(int locationId, String name, String longitude, String latitude, int radius) {
+    public Location(UUID locationId, String name, String longitude, String latitude, int radius) {
         this.locationId = locationId;
         this.name = name;
         this.longitude = longitude;
@@ -21,11 +22,11 @@ public class Location {
         this.radius = radius;
     }
 
-    public int getLocationId() {
+    public UUID getLocationId() {
         return locationId;
     }
 
-    public void setLocationId(int locationId) {
+    public void setLocationId(UUID locationId) {
         this.locationId = locationId;
     }
 
