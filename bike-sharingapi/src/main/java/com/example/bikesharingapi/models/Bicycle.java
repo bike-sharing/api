@@ -1,19 +1,27 @@
 package com.example.bikesharingapi.models;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.util.Date;
 
+@Entity(name = "bicycle")
 public class Bicycle {
-    String BicycleId;
-    Date lastRevisionTime;
-    Boolean availability;
-    State state;
-    Location location;
-    String currentLatitude;
-    String currentLongitude;
-    String userId;
+
+    @Id
+    private String bicycleId;
+    private Date lastRevisionTime;
+    private Boolean availability;
+    @ManyToOne
+    private State state;
+    @ManyToOne
+    private Location location;
+    private String currentLatitude;
+    private String currentLongitude;
+    private String userId;
 
     public Bicycle(String bicycleId, Date lastRevisionTime, Boolean availability, State state, Location location, String currentLatitude, String currentLongitude, String userId) {
-        BicycleId = bicycleId;
+        this.bicycleId = bicycleId;
         this.lastRevisionTime = lastRevisionTime;
         this.availability = availability;
         this.state = state;
@@ -24,11 +32,11 @@ public class Bicycle {
     }
 
     public String getBicycleId() {
-        return BicycleId;
+        return bicycleId;
     }
 
     public void setBicycleId(String bicycleId) {
-        BicycleId = bicycleId;
+        this.bicycleId = bicycleId;
     }
 
     public Date getLastRevisionTime() {
