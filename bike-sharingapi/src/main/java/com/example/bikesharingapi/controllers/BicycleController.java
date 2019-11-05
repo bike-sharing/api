@@ -2,8 +2,8 @@ package com.example.bikesharingapi.controllers;
 
 import com.example.bikesharingapi.models.Bicycle;
 import com.example.bikesharingapi.repository.BicycleRepository;
+import com.example.bikesharingapi.repository.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -33,8 +33,8 @@ public class BicycleController {
     }
 
     @DeleteMapping("/bicycle/{bicycleId}")
-    public boolean removeBicycle(@PathVariable String bicycleId) {
-        return bicycleRepository.deleteByBicycleIdIs(UUID.fromString(bicycleId));
+    public void removeBicycle(@PathVariable String bicycleId) {
+        bicycleRepository.deleteByBicycleIdIs(UUID.fromString(bicycleId));
     }
 
     @PutMapping("/bicycle")

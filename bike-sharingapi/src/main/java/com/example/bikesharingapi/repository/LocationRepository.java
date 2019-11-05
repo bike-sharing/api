@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface LocationRepository extends JpaRepository<Location, UUID> {
 
     List<Location> getAllBy();
-    List<Location> getByLocationId(UUID locationId);
+    Location getByLocationId(UUID locationId);
     void deleteAllBy();
     void deleteByLocationId(UUID locationId);
 }

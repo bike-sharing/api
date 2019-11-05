@@ -14,6 +14,6 @@ public interface BicycleRepository extends JpaRepository<Bicycle, UUID> {
 
     List<Bicycle> getAllBy();
     Bicycle getByBicycleId(UUID bicycleId);
-    boolean deleteByBicycleIdIs(UUID bicycleId);
+    void deleteByBicycleIdIs(UUID bicycleId);
     void deleteAllBy();
 }
