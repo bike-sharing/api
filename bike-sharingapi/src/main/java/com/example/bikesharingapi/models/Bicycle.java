@@ -1,19 +1,32 @@
 package com.example.bikesharingapi.models;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.util.Date;
+import java.util.UUID;
 
+@Entity(name = "bicycle")
 public class Bicycle {
-    String BicycleId;
-    Date lastRevisionTime;
-    Boolean availability;
-    State state;
-    Location location;
-    String currentLatitude;
-    String currentLongitude;
-    String userId;
 
-    public Bicycle(String bicycleId, Date lastRevisionTime, Boolean availability, State state, Location location, String currentLatitude, String currentLongitude, String userId) {
-        BicycleId = bicycleId;
+    @Id
+    private UUID bicycleId;
+    private Date lastRevisionTime;
+    private Boolean availability;
+    @ManyToOne
+    private State state;
+    @ManyToOne
+    private Location location;
+    private String currentLatitude;
+    private String currentLongitude;
+    private UUID userId;
+
+    public Bicycle() {
+
+    }
+
+    public Bicycle(UUID bicycleId, Date lastRevisionTime, Boolean availability, State state, Location location, String currentLatitude, String currentLongitude, UUID userId) {
+        this.bicycleId = bicycleId;
         this.lastRevisionTime = lastRevisionTime;
         this.availability = availability;
         this.state = state;
@@ -23,12 +36,12 @@ public class Bicycle {
         this.userId = userId;
     }
 
-    public String getBicycleId() {
-        return BicycleId;
+    public UUID getBicycleId() {
+        return bicycleId;
     }
 
-    public void setBicycleId(String bicycleId) {
-        BicycleId = bicycleId;
+    public void setBicycleId(UUID bicycleId) {
+        this.bicycleId = bicycleId;
     }
 
     public Date getLastRevisionTime() {
@@ -79,11 +92,11 @@ public class Bicycle {
         this.currentLongitude = currentLongitude;
     }
 
-    public String getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 }

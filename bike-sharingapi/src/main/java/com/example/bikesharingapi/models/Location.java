@@ -1,26 +1,37 @@
 package com.example.bikesharingapi.models;
 
-public class Location {
-    int id;
-    String name;
-    String longitude;
-    String latitude;
-    int radius;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.util.UUID;
 
-    public Location(int id, String name, String longitude, String latitude, int radius) {
-        this.id = id;
+@Entity(name = "location")
+public class Location {
+
+    @Id
+    private UUID locationId;
+    private String name;
+    private String longitude;
+    private String latitude;
+    private int radius;
+
+    public Location() {
+
+    }
+
+    public Location(UUID locationId, String name, String longitude, String latitude, int radius) {
+        this.locationId = locationId;
         this.name = name;
         this.longitude = longitude;
         this.latitude = latitude;
         this.radius = radius;
     }
 
-    public int getId() {
-        return id;
+    public UUID getLocationId() {
+        return locationId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setLocationId(UUID locationId) {
+        this.locationId = locationId;
     }
 
     public String getName() {
