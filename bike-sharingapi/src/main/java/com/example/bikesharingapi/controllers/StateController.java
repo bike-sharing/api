@@ -21,7 +21,7 @@ public class StateController {
     }
 
     @GetMapping("/state/{stateId}")
-    public List<State> getById(@PathVariable String stateId) {
+    public State getById(@PathVariable String stateId) {
         return stateRepository.getByStateId(UUID.fromString(stateId));
     }
 

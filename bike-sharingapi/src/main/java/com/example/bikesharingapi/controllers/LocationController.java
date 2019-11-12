@@ -21,7 +21,7 @@ public class LocationController {
     }
 
     @GetMapping("/location/{locationId}")
-    public List<Location> getById(@PathVariable String locationId) {
+    public Location getById(@PathVariable String locationId) {
         return locationRepository.getByLocationId(UUID.fromString(locationId));
     }
 

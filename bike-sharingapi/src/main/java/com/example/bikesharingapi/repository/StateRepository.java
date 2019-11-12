@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface StateRepository extends JpaRepository<State, UUID> {
 
     List<State> getAllBy();
-    List<State> getByStateId(UUID locationId);
+    State getByStateId(UUID locationId);
     void deleteAllBy();
     void deleteByStateId(UUID locationId);
 }
