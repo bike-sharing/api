@@ -1,6 +1,8 @@
 package com.example.bikesharingapi.models;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.UUID;
 
@@ -8,6 +10,7 @@ import java.util.UUID;
 public class Location {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID locationId;
     private String name;
     private String longitude;
