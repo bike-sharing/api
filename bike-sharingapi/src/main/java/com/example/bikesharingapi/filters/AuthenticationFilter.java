@@ -32,11 +32,14 @@ public class AuthenticationFilter implements Filter {
         } catch (FirebaseAuthException e) {
             LOG.error(e.getMessage());
             res.sendError(403);
+        } catch (NullPointerException e) {
+            LOG.error("No authentication token was provided");
+            res.sendError(403);
         }
 
         LOG.info("Logging Request  {} : {}", req.getMethod(), req.getRequestURI());
         chain.doFilter(request, response);
-        LOG.info("Logging Response :{}", res.getContentType());
+        LOG.info("Logging Response : {}", res.getContentType());
     }
 
     private String getAuthToken(String header) {
