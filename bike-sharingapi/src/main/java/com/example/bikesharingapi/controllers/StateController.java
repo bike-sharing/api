@@ -3,6 +3,7 @@ package com.example.bikesharingapi.controllers;
 import com.example.bikesharingapi.models.State;
 import com.example.bikesharingapi.repository.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,11 +26,13 @@ public class StateController {
         return stateRepository.getByStateId(UUID.fromString(stateId));
     }
 
+    @Transactional
     @DeleteMapping("/states")
     public void removeBicycle() {
         stateRepository.deleteAllBy();
     }
 
+    @Transactional
     @DeleteMapping("/state/{stateId}")
     public void removeBicycle(@PathVariable String stateId) {
         stateRepository.deleteByStateId(UUID.fromString(stateId));
