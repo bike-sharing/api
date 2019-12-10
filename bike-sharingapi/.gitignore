@@ -29,3 +29,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+### Google Autentication Credentials ###
+GOOGLE_APPLICATION_CREDENTIALS.json
