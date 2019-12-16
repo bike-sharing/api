@@ -3,11 +3,16 @@ package com.example.bikesharingapi.controllers;
 import com.example.bikesharingapi.models.Bicycle;
 import com.example.bikesharingapi.repository.BicycleRepository;
 import com.example.bikesharingapi.repository.LocationRepository;
+import com.example.bikesharingapi.utils.QRcodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
 import javax.validation.Valid;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,6 +52,8 @@ public class BicycleController {
 
     @PostMapping("/bicycle")
     public Bicycle updateBicycle(@Valid @RequestBody Bicycle bicycle) {
-        return bicycleRepository.saveAndFlush(bicycle);
+        Bicycle createdBicycle = bicycleRepository.saveAndFlush(bicycle);
+        QRcodeGenerator.GetQRcodeBytestream(createdBicycle.getBicycleId().toString());
+        return createdBicycle;
     }
 }
