@@ -1,10 +1,13 @@
 package com.example.bikesharingapi.controllers;
 
+import com.example.bikesharingapi.filters.AuthenticationFilter;
 import com.example.bikesharingapi.models.Location;
 import com.example.bikesharingapi.models.PathCoordinates;
 import com.example.bikesharingapi.models.PathDirections;
 import com.example.bikesharingapi.repository.BicycleRepository;
 import com.example.bikesharingapi.repository.LocationRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +17,8 @@ import javax.validation.Valid;
 
 @RestController
 public class PathController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AuthenticationFilter.class);
 
     @Autowired
     private LocationRepository locationRepository;
@@ -29,9 +34,14 @@ public class PathController {
 
         pathDirections.setStartingPoint(closestLocation);
 
-        pathDirections.setEndingPoint(getClosestLocation(
-                Double.parseDouble(pathCoordinates.getDestinationLatitude()),
-                Double.parseDouble(pathCoordinates.getDestinationLongitude())));
+        try {
+            pathDirections.setEndingPoint(getClosestLocation(
+                    Double.parseDouble(pathCoordinates.getDestinationLatitude()),
+                    Double.parseDouble(pathCoordinates.getDestinationLongitude())));
+        } catch (NullPointerException exception) {
+            LOG.info("The ending point is not set. The user can freely use the bicycle.");
+            pathDirections.setEndingPoint(null);
+        }
 
         pathDirections.setAvailableBicycles(bicycleRepository.getBicyclesByLocation_LocationId(closestLocation.getLocationId()));
 
