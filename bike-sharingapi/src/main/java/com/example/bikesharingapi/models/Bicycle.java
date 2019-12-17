@@ -19,13 +19,13 @@ public class Bicycle {
     private String currentLatitude;
     private String currentLongitude;
     private UUID userId;
+    private String QRcode;
 
     public Bicycle() {
 
     }
 
-    public Bicycle(UUID bicycleId, Date lastRevisionTime, Boolean availability, State state, Location location, String currentLatitude, String currentLongitude, UUID userId) {
-        this.bicycleId = bicycleId;
+    public Bicycle(Date lastRevisionTime, Boolean availability, State state, Location location, String currentLatitude, String currentLongitude, UUID userId, String QRcode) {
         this.lastRevisionTime = lastRevisionTime;
         this.availability = availability;
         this.state = state;
@@ -33,6 +33,7 @@ public class Bicycle {
         this.currentLatitude = currentLatitude;
         this.currentLongitude = currentLongitude;
         this.userId = userId;
+        this.QRcode = QRcode;
     }
 
     public UUID getBicycleId() {
@@ -97,5 +98,13 @@ public class Bicycle {
 
     public void setUserId(UUID userId) {
         this.userId = userId;
+    }
+
+    public String getQRcode() {
+        return QRcode;
+    }
+
+    public void setQRcode(String QRcode) {
+        this.QRcode = QRcode;
     }
 }

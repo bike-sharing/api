@@ -47,13 +47,13 @@ public class BicycleController {
 
     @PutMapping("/bicycle")
     public Bicycle addBicycle(@Valid @RequestBody Bicycle bicycle) {
-        return bicycleRepository.saveAndFlush(bicycle);
+        Bicycle createdBicycle = bicycleRepository.saveAndFlush(bicycle);
+        createdBicycle.setQRcode(QRcodeGenerator.GetQRcodeBytestream(createdBicycle.getBicycleId()));
+        return bicycleRepository.saveAndFlush(createdBicycle);
     }
 
     @PostMapping("/bicycle")
     public Bicycle updateBicycle(@Valid @RequestBody Bicycle bicycle) {
-        Bicycle createdBicycle = bicycleRepository.saveAndFlush(bicycle);
-        QRcodeGenerator.GetQRcodeBytestream(createdBicycle.getBicycleId().toString());
-        return createdBicycle;
+        return bicycleRepository.saveAndFlush(bicycle);
     }
 }
