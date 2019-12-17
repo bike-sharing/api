@@ -31,16 +31,16 @@ public class BicycleController {
         private final String message;
         private final int statusCode;
 
-        ChangeBicycleStatus(String message, int errorCode) {
+        ChangeBicycleStatus(String message, int statusCode) {
             this.message = message;
-            this.statusCode = errorCode;
+            this.statusCode = statusCode;
         }
 
         public String getMessage() {
             return message;
         }
 
-        public int getErrorCode() {
+        public int getStatusCode() {
             return statusCode;
         }
     }
