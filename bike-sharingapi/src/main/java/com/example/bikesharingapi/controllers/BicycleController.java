@@ -91,7 +91,7 @@ public class BicycleController {
     @RequestMapping(produces = MediaType.IMAGE_JPEG_VALUE, value = "/bicycle/{bicycleId}/qr", method = RequestMethod.GET)
     @ResponseBody
     public byte[] getQRById(@PathVariable String bicycleId, final HttpServletRequest request) {
-        return QRcodeGenerator.GetQRcodeBytestream(bicycleId, request.getRemoteHost());
+        return QRcodeGenerator.GetQRcodeBytestream(bicycleId, request.getServerName());
     }
 
     @DeleteMapping("/bicycles")
