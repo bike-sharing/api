@@ -5,11 +5,14 @@ import com.example.bikesharingapi.repository.BicycleRepository;
 import com.example.bikesharingapi.repository.LocationRepository;
 import com.example.bikesharingapi.utils.QRcodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.MediaTypes;
+import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.validation.Valid;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +36,12 @@ public class BicycleController {
         return bicycleRepository.getByBicycleId(UUID.fromString(bicycleId));
     }
 
+    @RequestMapping(produces = MediaType.IMAGE_JPEG_VALUE, value = "/bicycle/{bicycleId}/qr", method = RequestMethod.GET)
+    @ResponseBody
+    public byte[] getQRById(@PathVariable String bicycleId) {
+        return QRcodeGenerator.GetQRcodeBytestream(bicycleId);
+    }
+
     @DeleteMapping("/bicycles")
     @Transactional
     public void removeBicycle() {
@@ -47,9 +56,7 @@ public class BicycleController {
 
     @PutMapping("/bicycle")
     public Bicycle addBicycle(@Valid @RequestBody Bicycle bicycle) {
-        Bicycle createdBicycle = bicycleRepository.saveAndFlush(bicycle);
-        createdBicycle.setQRcode(QRcodeGenerator.GetQRcodeBytestream(createdBicycle.getBicycleId()));
-        return bicycleRepository.saveAndFlush(createdBicycle);
+        return bicycleRepository.saveAndFlush(bicycle);
     }
 
     @PostMapping("/bicycle")
