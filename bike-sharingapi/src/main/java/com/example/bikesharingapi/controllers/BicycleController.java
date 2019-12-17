@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
@@ -89,8 +90,8 @@ public class BicycleController {
 
     @RequestMapping(produces = MediaType.IMAGE_JPEG_VALUE, value = "/bicycle/{bicycleId}/qr", method = RequestMethod.GET)
     @ResponseBody
-    public byte[] getQRById(@PathVariable String bicycleId) {
-        return QRcodeGenerator.GetQRcodeBytestream(bicycleId);
+    public byte[] getQRById(@PathVariable String bicycleId, final HttpServletRequest request) {
+        return QRcodeGenerator.GetQRcodeBytestream(bicycleId, request.getRemoteHost());
     }
 
     @DeleteMapping("/bicycles")
