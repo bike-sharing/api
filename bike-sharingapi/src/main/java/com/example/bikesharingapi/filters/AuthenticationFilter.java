@@ -26,7 +26,7 @@ public class AuthenticationFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
 
-        try {
+        /*try {
             FirebaseToken userRecord = FirebaseAuth.getInstance().verifyIdToken(getAuthToken(((HttpServletRequest) request).getHeader("Authorization")));
             LOG.info("Successfully fetched user data {} : {} ", userRecord.getEmail(), userRecord.getName());
         } catch (FirebaseAuthException e) {
@@ -35,7 +35,7 @@ public class AuthenticationFilter implements Filter {
         } catch (NullPointerException e) {
             LOG.error("No authentication token was provided");
             res.sendError(403);
-        }
+        }*/
 
         LOG.info("Logging Request  {} : {}", req.getMethod(), req.getRequestURI());
         chain.doFilter(request, response);

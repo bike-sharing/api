@@ -1,6 +1,7 @@
 package com.example.bikesharingapi.models;
 
 import javax.persistence.*;
+import java.io.ByteArrayOutputStream;
 import java.util.Date;
 import java.util.UUID;
 
@@ -24,8 +25,7 @@ public class Bicycle {
 
     }
 
-    public Bicycle(UUID bicycleId, Date lastRevisionTime, Boolean availability, State state, Location location, String currentLatitude, String currentLongitude, UUID userId) {
-        this.bicycleId = bicycleId;
+    public Bicycle(Date lastRevisionTime, Boolean availability, State state, Location location, String currentLatitude, String currentLongitude, UUID userId) {
         this.lastRevisionTime = lastRevisionTime;
         this.availability = availability;
         this.state = state;
