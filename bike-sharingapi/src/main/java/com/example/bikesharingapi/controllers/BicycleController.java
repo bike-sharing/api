@@ -2,26 +2,47 @@ package com.example.bikesharingapi.controllers;
 
 import com.example.bikesharingapi.models.Bicycle;
 import com.example.bikesharingapi.repository.BicycleRepository;
-import com.example.bikesharingapi.repository.LocationRepository;
 import com.example.bikesharingapi.utils.QRcodeGenerator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.imageio.ImageIO;
 import javax.validation.Valid;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
 
+@SuppressWarnings("PointlessBooleanExpression")
 @RestController
 public class BicycleController {
+
+    @JsonFormat(shape = JsonFormat.Shape.OBJECT)
+    public enum ChangeBicycleStatus {
+        BORROW_SUCCESS("Bicycle was borrowed with success", 1),
+        BORROW_FAIL("Bicycle can't be borrowed", -1),
+        RETURN_SUCCESS("Bicycle was returned with success", 1);
+
+        private final String message;
+        private final int statusCode;
+
+        ChangeBicycleStatus(String message, int errorCode) {
+            this.message = message;
+            this.statusCode = errorCode;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public int getErrorCode() {
+            return statusCode;
+        }
+    }
 
     @Autowired
     private BicycleRepository bicycleRepository;
@@ -29,6 +50,36 @@ public class BicycleController {
     @GetMapping("/bicycles")
     public List<Bicycle> getAll() {
         return bicycleRepository.getAllBy();
+    }
+
+    @GetMapping(value = "/bicycle/{bicycleId}/borrow", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String borrowBicycle(@PathVariable String bicycleId) {
+        Bicycle bicycle = bicycleRepository.getByBicycleId(UUID.fromString(bicycleId));
+        try {
+            if (bicycle.getAvailability() == true) {
+                bicycle.setAvailability(false);
+                bicycleRepository.saveAndFlush(bicycle);
+                return new ObjectMapper().writeValueAsString(ChangeBicycleStatus.BORROW_SUCCESS);
+            } else {
+                return new ObjectMapper().writeValueAsString(ChangeBicycleStatus.BORROW_FAIL);
+            }
+        } catch (JsonProcessingException exception) {
+            System.out.println(exception.getMessage());
+        }
+        return null;
+    }
+
+    @GetMapping(value = "/bicycle/{bicycleId}/return", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String returnBicycle(@PathVariable String bicycleId) {
+        Bicycle bicycle = bicycleRepository.getByBicycleId(UUID.fromString(bicycleId));
+        bicycle.setAvailability(true);
+        bicycleRepository.saveAndFlush(bicycle);
+        try {
+            return new ObjectMapper().writeValueAsString(ChangeBicycleStatus.RETURN_SUCCESS);
+        } catch (JsonProcessingException exception) {
+            System.out.println(exception.getMessage());
+        }
+        return null;
     }
 
     @GetMapping("/bicycle/{bicycleId}")
