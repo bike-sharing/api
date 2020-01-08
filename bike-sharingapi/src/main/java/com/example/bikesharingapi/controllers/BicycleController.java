@@ -107,7 +107,20 @@ public class BicycleController {
     }
 
     @PutMapping("/bicycle")
-    public Bicycle addBicycle(@Valid @RequestBody Bicycle bicycle) {
+        public Bicycle addBicycle(@Valid @RequestBody Bicycle bicycle) throws Exception {
+
+        if(bicycle.getCurrentLatitude() != null && bicycle.getCurrentLongitude() == null
+            || bicycle.getCurrentLatitude() == null && bicycle.getCurrentLongitude() != null)
+            throw new Exception("Invalid coordinates.");
+
+        if(bicycle.getCurrentLongitude() != null && bicycle.getCurrentLatitude() != null) {
+            double latitude = Double.parseDouble(bicycle.getCurrentLatitude());
+            double longitude = Double.parseDouble(bicycle.getCurrentLongitude());
+
+            if(latitude < -90 || latitude > 90
+                    || longitude < -180 || longitude > 180)
+                throw new Exception("Invalid coordinates.");
+        }
         return bicycleRepository.saveAndFlush(bicycle);
     }
 
