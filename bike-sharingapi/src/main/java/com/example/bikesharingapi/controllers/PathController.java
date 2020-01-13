@@ -6,6 +6,7 @@ import com.example.bikesharingapi.models.PathCoordinates;
 import com.example.bikesharingapi.models.PathDirections;
 import com.example.bikesharingapi.repository.BicycleRepository;
 import com.example.bikesharingapi.repository.LocationRepository;
+import com.example.bikesharingapi.algorithm.EucledianDistance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,11 +50,12 @@ public class PathController {
     }
 
     private Location getClosestLocation(double latitude, double longitude) {
+        EucledianDistance eucledianDistance = new EucledianDistance();
         Location closestLocation = new Location();
         double closestLocationDistance = Double.MAX_VALUE;
 
         for(Location location : locationRepository.getAllBy()) {
-            double distance = calculateDistance(
+            double distance = eucledianDistance.calculate(
                     latitude,
                     Double.parseDouble(location.getLatitude()),
                     longitude,
@@ -71,25 +73,5 @@ public class PathController {
         }
 
         return closestLocation;
-    }
-
-    private static double calculateDistance(double latitude1, double latitude2, double longitude1,
-                                            double longitude2, double altitude1, double altitude2) {
-
-        final int R = 6371; // Radius of the earth
-
-        double latDistance = Math.toRadians(latitude2 - latitude1);
-        double lonDistance = Math.toRadians(longitude2 - longitude1);
-        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(latitude1)) * Math.cos(Math.toRadians(latitude2))
-                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = R * c * 1000; // convert to meters
-
-        double height = altitude1 - altitude2;
-
-        distance = Math.pow(distance, 2) + Math.pow(height, 2);
-
-        return Math.sqrt(distance);
     }
 }
