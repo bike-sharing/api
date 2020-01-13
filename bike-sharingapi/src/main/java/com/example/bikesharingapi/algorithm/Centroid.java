@@ -5,6 +5,9 @@ import com.example.bikesharingapi.models.Coordinates;
 public class Centroid {
     private Coordinates coordinates;
 
+    public Centroid() {
+    }
+
     public Centroid(Coordinates coordinates) {
         this.coordinates = coordinates;
     }
