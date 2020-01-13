@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import static java.util.stream.Collectors.toList;
+
 public class KMeans implements Algorithm {
     private static Random random = new Random();
 
@@ -70,5 +72,40 @@ public class KMeans implements Algorithm {
             list.add(coordinates);
             return list;
         });
+    }
+
+    private static Centroid averageCentroid(Centroid centroid, List<Coordinates> coordinatesList) {
+        if(coordinatesList.size() <= 1) {
+            return centroid;
+        }
+
+        double x = 0.0;
+        double y = 0.0;
+        double z = 0.0;
+
+        for(Coordinates coordinates : coordinatesList) {
+            double latitude = coordinates.getLatitude() * Math.PI / 180;
+            double longitude = coordinates.getLongitude() * Math.PI / 180;
+
+            x += Math.cos(latitude) * Math.cos(longitude);
+            y += Math.cos(latitude) * Math.sin(longitude);
+            z += Math.sin(latitude);
+        }
+
+        int numberOfCoordinates = coordinatesList.size();
+
+        x = x / numberOfCoordinates;
+        y = y / numberOfCoordinates;
+        z = z / numberOfCoordinates;
+
+        double centerLongitude = Math.atan2(y, x);
+        double centralSquareRoot = Math.sqrt(x * x + y * y);
+        double centralLatitude = Math.atan2(z, centralSquareRoot);
+
+        return new Centroid(new Coordinates(centerLongitude * 180 / Math.PI, centralLatitude * 180 / Math.PI));
+    }
+
+    private static List<Centroid> relocateCentroids(Map<Centroid, List<Coordinates>> clusters) {
+        return clusters.entrySet().stream().map(e -> averageCentroid(e.getKey(), e.getValue())).collect(toList());
     }
 }
