@@ -44,4 +44,20 @@ public class KMeans implements Algorithm {
 
         return centroids;
     }
+
+    private static Centroid nearestCentroid(Coordinates coordinates, List<Centroid> centroids, Distance distance) {
+        double minimumDistance = Double.MAX_VALUE;
+        Centroid nearest = null;
+
+        for(Centroid centroid : centroids) {
+            double currentDistance = distance.calculate(coordinates, centroid.getCoordinates());
+
+            if(currentDistance < minimumDistance) {
+                minimumDistance = currentDistance;
+                nearest = centroid;
+            }
+        }
+
+        return nearest;
+    }
 }
