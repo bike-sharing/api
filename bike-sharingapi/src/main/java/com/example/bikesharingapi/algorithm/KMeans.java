@@ -2,10 +2,7 @@ package com.example.bikesharingapi.algorithm;
 
 import com.example.bikesharingapi.models.Coordinates;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 
@@ -14,7 +11,30 @@ public class KMeans implements Algorithm {
 
     @Override
     public Map<Centroid, List<Coordinates>> fit(List<Coordinates> coordinatesList, int k, Distance distance, int maxIterations) {
-        return null;
+        Coordinates townCenter = new Coordinates(27.587200, 47.159809);
+        List<Centroid> centroids = randomCentroids(townCenter, 10, 7000);
+        Map<Centroid, List<Coordinates>> clusters = new HashMap<>();
+        Map<Centroid, List<Coordinates>> lastState = new HashMap<>();
+
+        for(int i = 0; i < maxIterations; i++) {
+            boolean isLastIteration = i == maxIterations - 1;
+
+            for(Coordinates coordinates : coordinatesList) {
+                Centroid centroid = nearestCentroid(coordinates, centroids, distance);
+                assignToCluster(clusters, coordinates, centroid);
+            }
+
+            boolean shouldTerminate = isLastIteration || clusters.equals(lastState);
+            lastState = clusters;
+            if(shouldTerminate) {
+                break;
+            }
+
+            centroids = relocateCentroids(clusters);
+            clusters = new HashMap<>();
+        }
+        
+        return lastState;
     }
 
     private static List<Centroid> randomCentroids(Coordinates townCenter, int k, int radius) {
