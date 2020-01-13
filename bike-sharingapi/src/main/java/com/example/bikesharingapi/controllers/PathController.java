@@ -1,6 +1,7 @@
 package com.example.bikesharingapi.controllers;
 
 import com.example.bikesharingapi.filters.AuthenticationFilter;
+import com.example.bikesharingapi.models.Coordinates;
 import com.example.bikesharingapi.models.Location;
 import com.example.bikesharingapi.models.PathCoordinates;
 import com.example.bikesharingapi.models.PathDirections;
@@ -53,15 +54,14 @@ public class PathController {
         EucledianDistance eucledianDistance = new EucledianDistance();
         Location closestLocation = new Location();
         double closestLocationDistance = Double.MAX_VALUE;
+        Coordinates currentCoordinates = new Coordinates(longitude, latitude);
 
         for(Location location : locationRepository.getAllBy()) {
-            double distance = eucledianDistance.calculate(
-                    latitude,
-                    Double.parseDouble(location.getLatitude()),
-                    longitude,
+            Coordinates locationCoordinates = new Coordinates(
                     Double.parseDouble(location.getLongitude()),
-                    0.0, 0.0
-            );
+                    Double.parseDouble(location.getLatitude()));
+
+            double distance = eucledianDistance.calculate(currentCoordinates, locationCoordinates);
             if(distance < closestLocationDistance) {
                 closestLocationDistance = distance;
                 closestLocation.setRadius(location.getRadius());

@@ -33,11 +33,11 @@ public class KMeans implements Algorithm {
             centroids = relocateCentroids(clusters);
             clusters = new HashMap<>();
         }
-        
+
         return lastState;
     }
 
-    private static List<Centroid> randomCentroids(Coordinates townCenter, int k, int radius) {
+    public static List<Centroid> randomCentroids(Coordinates townCenter, int k, int radius) {
         List<Centroid> centroids = new ArrayList<>();
         double rd = radius / 111300d;
         double t, u, v, w, x, y, x0, y0;
@@ -66,6 +66,8 @@ public class KMeans implements Algorithm {
 
         return centroids;
     }
+
+
 
     private static Centroid nearestCentroid(Coordinates coordinates, List<Centroid> centroids, Distance distance) {
         double minimumDistance = Double.MAX_VALUE;
