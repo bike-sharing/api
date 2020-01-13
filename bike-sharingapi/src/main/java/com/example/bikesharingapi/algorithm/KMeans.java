@@ -60,4 +60,15 @@ public class KMeans implements Algorithm {
 
         return nearest;
     }
+
+    private static void assignToCluster(Map<Centroid, List<Coordinates>> clusters, Coordinates coordinates, Centroid centroid) {
+        clusters.compute(centroid, (key, list) -> {
+            if(list == null) {
+                list = new ArrayList<>();
+            }
+
+            list.add(coordinates);
+            return list;
+        });
+    }
 }
