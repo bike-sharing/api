@@ -1,6 +1,7 @@
 package com.example.bikesharingapi.algorithm;
 
+import com.example.bikesharingapi.models.Coordinates;
+
 public interface Distance {
-    double calculate(double latitude1, double latitude2, double longitude1,
-                     double longitude2, double altitude1, double altitude2);
+    double calculate(Coordinates a, Coordinates b);
 }
